@@ -8,7 +8,7 @@
     <meta name="author" content="">
     {% load static %}
     {% include "common.html" %}
-    <title>CarPool - Pool with the Cool</title>
+    <title>Illumina CarPool App</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link href="{% static 'css/nav.css' %}" rel="stylesheet">
@@ -49,8 +49,6 @@
             There was an error storing your commute. You probably forgot to select the end destination. Please try.
             again.
 
-            Es gab ein Problem beim laden deine Mitfahrgelegenheit. Bitte versucht nochmal. Bist du sicher dass
-            du ein Ziel geklickt hast?
         </p>
     {% endif %}
 
@@ -58,12 +56,11 @@
         <div class="row irow">
             <div class="col-lg-5">
                 <form method="get" action="{% url "new_commute" %}">
-                    <button class="btn btn-xlarge">Fahrt erstellen / Create Commute</button>
+                    <button class="btn btn-xlarge">Create Commute</button>
                 </form>
             </div>
             <div class="col-lg-7">
                 <p class="desc">
-                    Biete deine Kollegen eine Mitfahrgelegenheit an /
                     <br>Offer a Ride to your Colleagues
                 </p>
             </div>
@@ -72,13 +69,13 @@
             <div class="col-lg-5">
                 <form method="get" action="{% url "search_commute" %}">
                     <button class="btn btn-xlarge">
-                        Mitfahrgelegenheit finden / Find Commute
+                       Find Commute
                     </button>
                 </form>
             </div>
             <div class="col-lg-7">
                 <p class="desc">
-                    Finde eine Mitfahrgelegenheit /
+                    
                     <br>Find someone who can give you a ride
                 </p>
             </div>
@@ -86,12 +83,11 @@
         <div class="row irow">
             <div class="col-lg-5">
                 <form method="get" action="{% url "my_commutes" %}">
-                    <button class="btn btn-xlarge">Meine Fahrten/ My Commutes</button>
+                    <button class="btn btn-xlarge">My Commutes</button>
                 </form>
             </div>
             <div class="col-lg-7">
                 <p class="desc">
-                    Überblick über deine erstellten Fahrten /
                     <br>See your Posted Commutes
                 </p>
             </div>
