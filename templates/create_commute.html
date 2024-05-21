@@ -86,7 +86,7 @@
         <div class="col-md-6">
             <h2>Map</h2>
             <div id="map"></div>
-            <p>To select your end location, pull the map to where you are going and double click on your end location.</p>
+            <p>Click on the map to select your start and end locations.</p>
         </div>
     </div>
 </div>
@@ -105,6 +105,35 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+
+    var startMarker, endMarker;
+
+    // Function to place marker and update input fields
+    function placeMarker(location, isStart) {
+        var marker = L.marker(location).addTo(map);
+        if (isStart) {
+            if (startMarker) {
+                map.removeLayer(startMarker);
+            }
+            startMarker = marker;
+            document.getElementById('startPlace').value = location.lat + ',' + location.lng;
+        } else {
+            if (endMarker) {
+                map.removeLayer(endMarker);
+            }
+            endMarker = marker;
+            document.getElementById('endPlace').value = location.lat + ',' + location.lng;
+        }
+    }
+
+    // Add map click event listener for start and end location selection
+    map.on('click', function(e) {
+        if (!startMarker) {
+            placeMarker(e.latlng, true);
+        } else {
+            placeMarker(e.latlng, false);
+        }
+    });
 </script>
 
 </body>
