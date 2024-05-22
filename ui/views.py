@@ -124,7 +124,9 @@ def save_commute(request):
     if '' in [start, end, time, seats]:
         return render(request, 'user_home.html', context={'successful': False})
 
-    time = datetime.datetime.strptime(time, "%d/%m/%Y %H:%M")
+    time = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M")
+
+
 
     start_coordinate = start_lat, start_long = _process_coordinates(start)
     end_coordinate = end_lat, end_long = _process_coordinates(end)
