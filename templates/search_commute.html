@@ -31,34 +31,42 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{% url "user_home" %}"><b>Illumina</b></a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Hi, {{ user.first_name }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Hi, {{ user.first_name }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 <!-- Main Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-5">
             <legend>Find a Commute</legend>
+            <form method="GET" action="{% url 'search_commute' %}">
+                <div class="form-group">
+                    <label for="start_destination">Start Destination:</label>
+                    <input type="text" class="form-control" id="start_destination" name="start_destination" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_destination">End Destination:</label>
+                    <input type="text" class="form-control" id="end_destination" name="end_destination" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateStart">Date:</label>
+                    <input type="text" class="form-control" id="dateStart" name="dateStart" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div id="map" style="height: 500px"></div>
-            <p>Click on the marks in the map above to see more information about that particular commute.</p>
-            <table id="info-table" class="table table-bordered table-hover"></table>
-        </div>
-    </div>
-
+    <!-- Commute List -->
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">Commutes</div>
@@ -81,12 +89,10 @@
                             <td>{{ commute.format_time }}</td>
                             <td>{% for key, day in WEEKDAYS.items %}{% if commute.time.weekday == key %}{{ day }}{% endif %}{% endfor %}</td>
                             <td>{{ commute.start_name }} ({{ commute.start_latitude }}, {{ commute.start_longitude }})</td>
-                            <td>{{ commute.end_name }} ({{ commute.end_latitude }}, {{ commute.end_longitude }})</
-
-                            </td>
+                            <td>{{ commute.end_name }} ({{ commute.end_latitude }}, {{ commute.end_longitude }})</td>
                             <td>{{ commute.seats }}</td>
                         </tr>
-                    {% endfor %}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

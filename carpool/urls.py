@@ -13,7 +13,7 @@ from ui.views import (
 admin.autodiscover()
 
 urlpatterns = [
-    path('', welcome, name='home_page'),
+    path('', welcome, name='home'),  # Updated name to 'home'
     path('new_commute/', new_commute, name='new_commute'),
     path('user_home/', user_home, name='user_home'),
     path('signup/', signup, name='signup'),

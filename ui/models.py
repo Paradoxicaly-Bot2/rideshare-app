@@ -5,9 +5,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
-request_choices = (('P', 'Pending'), ('A', 'Accepted'), ('D', 'Declined'))
-
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name=None, last_name=None, contact_number=None, password=None):
         """Create and save a User with the given email, date of birth, and password."""
@@ -45,7 +42,6 @@ class User(AbstractBaseUser):
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
 
@@ -65,7 +61,7 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
-    def __unicode__(self):
+    def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
 
 
@@ -81,7 +77,7 @@ class Commute(models.Model):
     seats = models.IntegerField()
     participants = models.ManyToManyField(User, related_name='trips', blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "{} to {} at {}".format(self.start_name, self.end_name, self.format_time())
 
     def to_json(self):
@@ -95,5 +91,5 @@ class Commute(models.Model):
         }
 
     def format_time(self):
-        """Format the time the european way."""
+        """Format the time the European way."""
         return self.time.strftime("%d/%m/%Y %H:%M")
