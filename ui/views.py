@@ -116,8 +116,8 @@ def signin(request):
 @require_POST
 def save_commute(request):
     seats = request.POST.get('seats')
-    start = request.POST.get('start_destination')
-    end = request.POST.get('end_destination')
+    start = request.POST.get('startPlace')
+    end = request.POST.get('endPlace')
     time = request.POST.get('dateStart')
     repeat = request.POST.get('repeat')
 
