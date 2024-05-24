@@ -9,12 +9,13 @@
 }
 
 body {
-    background: url("{% static 'img/background.jpg' %}");
+    background: url("{% static 'img/LETTERHEAD.png' %}");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     overflow: hidden;
 }
+
 
 
 .wrapper {

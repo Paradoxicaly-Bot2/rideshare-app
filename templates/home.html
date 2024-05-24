@@ -1,118 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>CAMS Carpool Application</title>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="Daniel Domingo-Fernandez">
+        {% load static %}
+        <title>CAMS Carpool Application</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'css/nav.css' %}" rel="stylesheet">
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Anton|Roboto:400,700&display=swap" rel="stylesheet">
+        {% include "common.html" %}
+    </head>
+    
 <body>
-    <div class="wrapper">
-        <nav class="nav">
-            <div class="nav-logo">
-                <img src="{% static 'img/LETTERHEAD.png' %}" alt="Logo" style="max-height:50px;">
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <ul>
-                    <li><a href="#" class="link">Home</a></li>
-                    <li><a href="#" class="link">About</a></li>
-                    <li><a href="#" class="link">Services</a></li>
-                    <li><a href="#" class="link">Contact</a></li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url "user_home" %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" style="max-height:50px;">
+                <b>CarPool</b>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Login
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <form class="px-4 py-3" method="post" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
             </div>
-            <div class="nav-button">
-                <button class="btn" id="loginBtn">Login</button>
-                <button class="btn white-btn" id="registerBtn">Register</button>
-                <div class="icons">
-                    <i class='bx bxl-facebook-square'></i>
-                    <i class='bx bxl-twitter'></i>
-                    <i class='bx bxl-google'></i>
+        </div>
+    </nav>
+    
+    
+    <div id="headerwrap" class="jumbotron jumbotron-fluid bg-primary text-white">
+        <div class="container">
+            {% if not_registered_user %}
+                <div class="alert alert-warning text-center"><b>Oups! Apparently, you have not still created an user with that account, or your credentials are not correct.</b></div>
+            {% endif %}
+            {% if user_already_exists %}
+                <div class="alert alert-warning text-center"><b>Oops! Apparently, your email is already in the Carpool app. Try to log in! Or contact the administrator to set your password again.</b></div>
+            {% endif %}
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1>CAMS Carpool</h1>
+                    <form class="mt-4" method="post" action="{% url 'signup' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" required class="form-control" id="first" name="first" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required class="form-control" id="last" name="last" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" required class="form-control" name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" required class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact Number (Optional)">
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-light btn-block">Sign Up</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid" src="{% static 'img/carpool.jpg' %}" alt="Carpool">
                 </div>
             </div>
-        </nav>
-        <div class="form-box">
-            <!-- Login and Registration forms go here -->
-            <div class="login-container">
-                <form action="{% url 'login' %}" method="post">
-                    {% csrf_token %}
-                    <h2>Login</h2>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-envelope"></i></span>
-                        <input type="email" name="email" required>
-                        <label>Email</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-lock"></i></span>
-                        <input type="password" name="password" required>
-                        <label>Password</label>
-                    </div>
-                    <button type="submit" class="btn">Login</button>
-                    <div class="register-link">
-                        <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
-                    </div>
-                </form>
-            </div>
-            <div class="register-container">
-                <form action="{% url 'signup' %}" method="post">
-                    {% csrf_token %}
-                    <h2>Register</h2>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-user"></i></span>
-                        <input type="text" name="first" required>
-                        <label>First Name</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-user"></i></span>
-                        <input type="text" name="last" required>
-                        <label>Last Name</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-envelope"></i></span>
-                        <input type="email" name="email" required>
-                        <label>Email</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-lock"></i></span>
-                        <input type="password" name="password" required>
-                        <label>Password</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><i class="bx bx-phone"></i></span>
-                        <input type="text" name="contact">
-                        <label>Contact Number</label>
-                    </div>
-                    <button type="submit" class="btn">Register</button>
-                    <div class="login-link">
-                        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
-                    </div>
-                </form>
-            </div>
         </div>
-    </div>
-
-    <script>
-        document.getElementById('showRegister').addEventListener('click', function () {
-            document.querySelector('.login-container').style.display = 'none';
-            document.querySelector('.register-container').style.display = 'block';
-        });
-        document.getElementById('showLogin').addEventListener('click', function () {
-            document.querySelector('.login-container').style.display = 'block';
-            document.querySelector('.register-container').style.display = 'none';
-        });
-        document.getElementById('registerBtn').addEventListener('click', function () {
-            document.querySelector('.login-container').style.display = 'none';
-            document.querySelector('.register-container').style.display = 'block';
-        });
-        document.getElementById('loginBtn').addEventListener('click', function () {
-            document.querySelector('.login-container').style.display = 'block';
-            document.querySelector('.register-container').style.display = 'none';
-        });
-        window.onload = function() {
-            document.querySelector('.register-container').style.display = 'none';
-        };
-    </script>
-</body>
+    </div>    
+</html>
 </html>

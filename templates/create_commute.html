@@ -109,7 +109,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 <script>
     // Initialize the map
     var map = L.map('map').setView([33.86071708217, -118.2551826909], 13);
@@ -130,12 +130,16 @@
             }
             startMarker = marker;
             document.getElementById('startPlace').value = location.lat + ',' + location.lng;
+            // Convert coordinates to address
+            geocodeLatLng(location.lat, location.lng, 'startPlace');
         } else {
             if (endMarker) {
                 map.removeLayer(endMarker);
             }
             endMarker = marker;
             document.getElementById('endPlace').value = location.lat + ',' + location.lng;
+            // Convert coordinates to address
+            geocodeLatLng(location.lat, location.lng, 'endPlace');
         }
     }
 
@@ -147,7 +151,23 @@
             placeMarker(e.latlng, false);
         }
     });
-</script>
 
+    // Function to geocode coordinates to address
+    function geocodeLatLng(lat, lng, elementId) {
+        var geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(lat, lng);
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    document.getElementById(elementId).value = results[0].formatted_address;
+                } else {
+                    console.log('No results found');
+                }
+            } else {
+                console.log('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+</script>
 </body>
 </html>
