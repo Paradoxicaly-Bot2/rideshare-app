@@ -126,46 +126,37 @@ def save_commute(request):
 
     time = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M")
 
-
-
     start_coordinate = start_lat, start_long = _process_coordinates(start)
     end_coordinate = end_lat, end_long = _process_coordinates(end)
 
     start_res = rg.search(start_coordinate)
     end_res = rg.search(end_coordinate)
 
+    def create_commute_entries(repeat_interval, num_entries):
+        for i in range(num_entries):
+            extended_time = time + repeat_interval * i
+            Commute.objects.get_or_create(
+                user=request.user,
+                time=extended_time,
+                start_latitude=start_lat,
+                start_longitude=start_long,
+                start_name=start_res[0]['name'] if start_res else None,
+                end_latitude=end_lat,
+                end_longitude=end_long,
+                end_name=end_res[0]['name'] if end_res else None,
+                seats=seats,
+            )
+
     if repeat == 'week':
-        for day in range(0, 8):
-            extended_time = time + timedelta(days=day)
-            _, _ = Commute.objects.get_or_create(
-                user=request.user,
-                time=extended_time,
-                start_latitude=start_lat,
-                start_longitude=start_long,
-                start_name=start_res[0]['name'] if start_res else None,
-                end_latitude=end_lat,
-                end_longitude=end_long,
-                end_name=end_res[0]['name'] if start_res else None,
-                seats=seats,
-            )
-
+        create_commute_entries(timedelta(days=7), 1)
     elif repeat == '2weeks':
-        for day in range(0, 15):
-            extended_time = time + timedelta(days=day)
-            _, _ = Commute.objects.get_or_create(
-                user=request.user,
-                time=extended_time,
-                start_latitude=start_lat,
-                start_longitude=start_long,
-                start_name=start_res[0]['name'] if start_res else None,
-                end_latitude=end_lat,
-                end_longitude=end_long,
-                end_name=end_res[0]['name'] if start_res else None,
-                seats=seats,
-            )
-
+        create_commute_entries(timedelta(days=7), 2)
+    elif repeat == 'month':
+        create_commute_entries(timedelta(weeks=4), 1)
+    elif repeat == 'year':
+        create_commute_entries(timedelta(weeks=52), 1)
     else:
-        _, _ = Commute.objects.get_or_create(
+        Commute.objects.get_or_create(
             user=request.user,
             time=time,
             start_latitude=start_lat,
@@ -173,9 +164,10 @@ def save_commute(request):
             start_name=start_res[0]['name'] if start_res else None,
             end_latitude=end_lat,
             end_longitude=end_long,
-            end_name=end_res[0]['name'] if start_res else None,
+            end_name=end_res[0]['name'] if end_res else None,
             seats=seats,
         )
+
     return render(request, 'user_home.html', context={'successful': True})
 
 
@@ -220,17 +212,23 @@ def search_commute(request):
     ).order_by('time')
 
     # Filter commutes to only working days
-    # Sort commutes by date so only the most recent commute is rendered in the map
-
     commutes = [
         commute
         for commute in commutes
         if commute.time.weekday() in WORKING_DAYS
     ]
 
+    commute_details = [
+        {
+            'commute': commute,
+            'user': commute.user
+        }
+        for commute in commutes
+    ]
+
     return render(
         request, 'search_commute.html',
-        context={"commutes": commutes, "now": now, "WEEKDAYS": WEEKDAYS_NAMES}
+        context={"commute_details": commute_details, "now": now, "WEEKDAYS": WEEKDAYS_NAMES}
     )
 
 
