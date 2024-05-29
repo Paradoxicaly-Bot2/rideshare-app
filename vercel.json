@@ -1,13 +1,13 @@
 {
     "builds": [{
-        "src": "RIDESHARE-APP/wsgi.py",
+        "src": "ui/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "RIDESHARE-APP/wsgi.py"
+            "dest": "ui/wsgi.py"
         }
     ]
 }
