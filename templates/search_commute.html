@@ -90,8 +90,12 @@
                         <tr>
                             <td>{{ detail.commute.format_time }}</td>
                             <td>{% for key, day in WEEKDAYS.items %}{% if detail.commute.time.weekday == key %}{{ day }}{% endif %}{% endfor %}</td>
-                            <td>{{ detail.commute.start_name }} ({{ detail.commute.start_latitude }}, {{ detail.commute.start_longitude }})</td>
-                            <td>{{ detail.commute.end_name }} ({{ detail.commute.end_latitude }}, {{ detail.commute.end_longitude }})</td>
+                            <td>
+                                <span id="start-address-{{ forloop.counter }}">{{ detail.commute.start_name }} ({{ detail.commute.start_latitude }}, {{ detail.commute.start_longitude }})</span>
+                            </td>
+                            <td>
+                                <span id="end-address-{{ forloop.counter }}">{{ detail.commute.end_name }} ({{ detail.commute.end_latitude }}, {{ detail.commute.end_longitude }})</span>
+                            </td>
                             <td>{{ detail.commute.seats }}</td>
                             <td>{{ detail.user.first_name }} {{ detail.user.last_name }}</td>
                             <td>{{ detail.user.contact_number }}</td>
@@ -111,13 +115,35 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 <script>
-    // Initialize the map
-    var map = L.map('map').setView([33.8372, -118.2558], 13);
+    function initMap() {
+        {% for detail in commute_details %}
+        // Start location reverse geocoding
+        reverseGeocode({{ detail.commute.start_latitude }}, {{ detail.commute.start_longitude }}, 'start-address-{{ forloop.counter }}');
+        
+        // End location reverse geocoding
+        reverseGeocode({{ detail.commute.end_latitude }}, {{ detail.commute.end_longitude }}, 'end-address-{{ forloop.counter }}');
+        {% endfor %}
+    }
 
-    // Add OpenStreetMap tiles to the map
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    function reverseGeocode(lat, lng, elementId) {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.address) {
+                    document.getElementById(elementId).innerText = data.display_name;
+                } else {
+                    document.getElementById(elementId).innerText = 'No address found';
+                }
+            })
+            .catch(error => {
+                console.error('Error with reverse geocoding:', error);
+                document.getElementById(elementId).innerText = 'Geocoder failed';
+            });
+    }
+
+    window.onload = initMap;
 </script>
 
 </body>

@@ -2,8 +2,9 @@
 
 """Models for the user interface application."""
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name=None, last_name=None, contact_number=None, password=None):
@@ -22,18 +23,22 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, first_name=None, last_name=None, contact_number=None):
         """Create and save a superuser with the given email, date of birth, and password."""
         user = self.create_user(
             email=email,
             password=password,
+            first_name=first_name,
+            last_name=last_name,
+            contact_number=contact_number,
         )
         user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -55,10 +60,17 @@ class User(AbstractBaseUser):
     def get_name(self):
         return "{} {}".format(self.first_name, self.last_name)
 
+    def has_perm(self, perm, obj=None):
+        """Does the user have a specific permission?"""
+        return True
+
+    def has_module_perms(self, app_label):
+        """Does the user have permissions to view the app `app_label`?"""
+        return True
+
     @property
     def is_staff(self):
-        """Return if the user is a member of the staff."""
-        # Simplest possible answer: All admins are staff
+        """Is the user a member of staff?"""
         return self.is_admin
 
     def __str__(self):
