@@ -9,4 +9,4 @@ reverse_geocoder==1.5.1
 scipy==1.13.0
 setuptools==70.0.0
 sqlparse==0.5.0
-//wheel==0.43.0
+wheel==0.43.0
