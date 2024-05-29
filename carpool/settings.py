@@ -9,7 +9,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'op7*^-7$x#)y9&^3ode$a#ane+7ee!r3o9q
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 
