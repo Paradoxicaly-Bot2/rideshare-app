@@ -8,3 +8,5 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "carpool.settings")
 django.setup()
 
 application = get_wsgi_application()
+
+app = application
