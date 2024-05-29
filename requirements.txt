@@ -2,8 +2,8 @@ asgiref==3.8.1
 certifi==2024.2.2
 Django==5.0.6
 django-allauth==0.63.2
-//geographiclib==2.0
-//geopy==2.4.1
+geographiclib==2.0
+geopy==2.4.1
 numpy==1.26.4
 //reverse_geocoder==1.5.1
 scipy==1.13.0
