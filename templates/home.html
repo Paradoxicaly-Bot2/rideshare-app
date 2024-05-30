@@ -5,164 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAMS Carpool Application</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            margin: 0;
             font-family: 'Roboto', sans-serif;
             background-image: url('/static/img/HomeBg2.jpeg');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
-        .navbar {
-            background-color: transparent;
-            overflow: hidden;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: flex-start;
-        }
-        .navbar a {
-            color: #f2f2f2;
-            text-decoration: none;
-            padding: 10px 15px;
-            margin-right: 10px;
-        }
-        .navbar a:hover {
-            background-color: #555;
-            border-radius: 5px;
-        }
-        .form-box {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            margin: 150px auto 0 auto;
-        }
-        .form-box h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        .form-box input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-box button {
-            width: 100%;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .form-box button:hover {
-            background-color: #555;
-        }
-        .alert {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        .popup-content {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            max-width: 80%;
-            max-height: 80%;
-            overflow: auto;
-        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="#">Home</a>
-        <a href="#">Features</a>
-        <a href="#" onclick="showPopup('how-it-works-popup')">How It Works</a>
-        <a href="#" onclick="showPopup('contact-popup')">Contact</a>
-        <a href="#" onclick="showPopup('information-popup')">Information</a>
-        <a href="#" onclick="showLoginForm()">Login</a>
-        <a href="#" onclick="showSignUpForm()">Sign Up</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <div class="container">
+            <a class="navbar-brand" href="#">CAMS Carpool</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showPopup('how-it-works-popup')">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showPopup('contact-popup')">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showPopup('information-popup')">Information</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showLoginForm()">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSignUpForm()">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
-    <div id="login-form" class="form-box" style="display: none;">
-        <h1>Login</h1>
-        <form method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <input type="email" name="email" placeholder="Email" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <button type="submit">Sign In</button>
-        </form>
-        {% if not_registered_user %}
-        <div class="alert">User not registered. Please sign up first.</div>
-        {% endif %}
+    <div id="login-form" class="container d-none">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h1 class="card-title">Login</h1>
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn btn-dark btn-block">Sign In</button>
+                        </form>
+                        {% if not_registered_user %}
+                        <div class="alert alert-danger mt-3">User not registered. Please sign up first.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="signup-form" class="form-box" style="display: none;">
-        <h1>Sign Up</h1>
-        <form id="signup-form-data" method="post" action="{% url 'signup' %}">
-            {% csrf_token %}
-            <input type="text" name="first" placeholder="First Name" required><br>
-            <input type="text" name="last" placeholder="Last Name" required><br>
-            <input type="email" name="email" placeholder="Email" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <input type="text" name="contact" placeholder="Contact Number (Optional)"><br>
-            <button type="submit">Sign Up</button>
-        </form>
-        {% if invalid_email_domain %}
-        <div class="alert">Invalid email domain. Please use your @lbschools.net email address.</div>
-        {% endif %}
-        {% if user_already_exists %}
-        <div class="alert">User with this email already exists.</div>
-        {% endif %}
+    <div id="signup-form" class="container d-none">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h1 class="card-title">Sign Up</h1>
+                        <form id="signup-form-data" method="post" action="{% url 'signup' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" name="first" class="form-control" placeholder="First Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="last" class="form-control" placeholder="Last Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="contact" class="form-control" placeholder="Contact Number (Optional)">
+                            </div>
+                            <button type="submit" class="btn btn-dark btn-block">Sign Up</button>
+                        </form>
+                        {% if invalid_email_domain %}
+                        <div class="alert alert-danger mt-3">Invalid email domain. Please use your @lbschools.net email address.</div>
+                        {% endif %}
+                        {% if user_already_exists %}
+                        <div class="alert alert-danger mt-3">User with this email already exists.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Pop-up content -->
-    <div id="how-it-works-popup" class="popup-content">
-        <h2>How It Works</h2>
-        <p>This is how it works...</p>
-        <button onclick="hidePopup('how-it-works-popup')">Close</button>
+    <div id="how-it-works-popup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">How It Works</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>This is how it works...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div id="contact-popup" class="popup-content">
-        <h2>Contact</h2>
-        <p>Contact information...</p>
-        <button onclick="hidePopup('contact-popup')">Close</button>
+    <div id="contact-popup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Contact information...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div id="information-popup" class="popup-content">
-        <h2>Information</h2>
-        <p>General information...</p>
-        <button onclick="hidePopup('information-popup')">Close</button>
+    <div id="information-popup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Information</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>General information...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function showLoginForm() {
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-form').classList.remove('d-none');
+            document.getElementById('signup-form').classList.add('d-none');
         }
         function showSignUpForm() {
-            document.getElementById('signup-form').style.display = 'block';
-            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').classList.remove('d-none');
+            document.getElementById('login-form').classList.add('d-none');
         }
         function showPopup(id) {
-            document.getElementById(id).style.display = 'block';
+            $('#' + id).modal('show');
         }
         function hidePopup(id) {
-            document.getElementById(id).style.display = 'none';
+            $('#' + id).modal('hide');
         }
 
         // Show the form again if there are validation errors
