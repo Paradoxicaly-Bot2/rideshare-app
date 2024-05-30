@@ -17,6 +17,12 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://monkfish-app-vwufh.ondigitalocean.app',
+    'https://yourdomain.com',
+    'https://otherdomain.com'
+]
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
