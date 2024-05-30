@@ -6,8 +6,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="{% static 'css/nav.css' %}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
     <title>CAMS CARPOOL</title>
     <style>
         body {
@@ -41,9 +41,13 @@
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url "user_home" %}"><b>Illumina</b></a>
+    <div class="container">
+        <a class="navbar-brand" href="{% url "user_home" %}"><b>Illumina</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#">Hi, {{ user.first_name }}</a>
                 </li>
@@ -52,10 +56,10 @@
                 </li>
             </ul>
         </div>
-    </nav>
-    
-<div class="container">
+    </div>
+</nav>
 
+<div class="container mt-5">
     {% if not commutes %}
         <div class="alert alert-warning text-center" role="alert">
             Oops! Apparently, you still have not created any rides.
@@ -66,7 +70,7 @@
             <div class="card-header panel-heading">My Commutes</div>
             <div class="card-body">
                 <form id="delete-commutes-form" method="get" action="{% url "delete_commutes" %}">
-                    <div class="text-center">
+                    <div class="text-center mb-3">
                         <button class="btn btn-primary" type="submit">Delete Commutes</button>
                     </div>
                     <div class="table-responsive">
@@ -87,9 +91,7 @@
                             {% for commute in commutes %}
                                 <tr>
                                     <td>
-                                        <label>
-                                            <input type="checkbox" name="commutes[]" value="{{ commute.id }}"/>
-                                        </label>
+                                        <input type="checkbox" name="commutes[]" value="{{ commute.id }}"/>
                                     </td>
                                     <td>{{ commute.format_time }}</td>
                                     <td>{% for key, day in WEEKDAYS.items %}
@@ -114,6 +116,7 @@
     {% endif %}
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6fCBQ4z3UHvrK94h2pO22ctvBM5v3s+9e+c05H/eZr/5GK7JycA" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
         var table = $('#my-commutes-table').DataTable();
@@ -126,4 +129,3 @@
 </script>
 </body>
 </html>
- 
