@@ -126,8 +126,9 @@
     }
 
     function reverseGeocode(lat, lng, elementId) {
-        const url = `https://nominatim.openstreetmap.org/reverse?format=geojson&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
-                   
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+                    
+        
 
         fetch(url)
             .then(response => response.json())
