@@ -19,6 +19,7 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://monkfish-app-vwufh.ondigitalocean.app',
+    'https://camsconnects.com'
     'https://yourdomain.com',
     'https://otherdomain.com'
 ]
