@@ -23,6 +23,45 @@
         }
         .content {
             flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .btn-primary, .btn-success, .btn-info {
+            border-radius: 50px;
+            font-size: 1.2rem;
+            padding: 0.75rem 1.5rem;
+            transition: background 0.3s, color 0.3s;
+        }
+        .btn-primary:hover, .btn-success:hover, .btn-info:hover {
+            background-color: #f4f4f4;
+            color: #000;
+        }
+        .navbar-brand img {
+            max-height: 40px;
+        }
+        .navbar-light .navbar-nav .nav-link {
+            color: #000;
+            font-weight: bold;
+        }
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: #007bff;
+        }
+        .navbar-light .navbar-toggler {
+            border: none;
+        }
+        .h5 {
+            font-weight: 300;
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -30,7 +69,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="{% url 'user_home' %}">
-            <img src="{% static 'img/LETTERHEAD.png' %}" alt="Logo" style="max-height:50px;">
+            <img src="{% static 'img/LETTERHEAD.png' %}" alt="Logo">
             <b>CarPool</b>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,59 +110,61 @@
     </div>
 </nav>
 
-<div class="content container mt-5">
-    {% if successful and successful is True %}
-        <div class="alert alert-success" role="alert">
-            Your trip has been successfully stored.
-        </div>
-    {% elif successful is False %}
-        <div class="alert alert-danger" role="alert">
-            There was an error storing your commute. You probably forgot to select the end destination. Please try again.
-        </div>
-    {% endif %}
+<div class="content container">
+    <div class="w-100">
+        {% if successful and successful is True %}
+            <div class="alert alert-success" role="alert">
+                Your trip has been successfully stored.
+            </div>
+        {% elif successful is False %}
+            <div class="alert alert-danger" role="alert">
+                There was an error storing your commute. You probably forgot to select the end destination. Please try again.
+            </div>
+        {% endif %}
 
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <form method="get" action="{% url 'new_commute' %}">
-                        <button class="btn btn-lg btn-primary btn-block">Create Commute</button>
-                    </form>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <form method="get" action="{% url 'new_commute' %}">
+                            <button class="btn btn-lg btn-primary btn-block">Create Commute</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8 d-flex align-items-center">
-            <p class="h5">Offer a Ride to your Colleagues</p>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <form method="get" action="{% url 'search_commute' %}">
-                        <button class="btn btn-lg btn-success btn-block">Find Commute</button>
-                    </form>
-                </div>
+            <div class="col-md-8 d-flex align-items-center">
+                <p class="h5">Offer a Ride to your Colleagues</p>
             </div>
         </div>
-        <div class="col-md-8 d-flex align-items-center">
-            <p class="h5">Find someone who can give you a ride</p>
-        </div>
-    </div>
 
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <form method="get" action="{% url 'my_commutes' %}">
-                        <button class="btn btn-lg btn-info btn-block">My Commutes</button>
-                    </form>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <form method="get" action="{% url 'search_commute' %}">
+                            <button class="btn btn-lg btn-success btn-block">Find Commute</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-8 d-flex align-items-center">
+                <p class="h5">Find someone who can give you a ride</p>
+            </div>
         </div>
-        <div class="col-md-8 d-flex align-items-center">
-            <p class="h5">See your Posted Commutes</p>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <form method="get" action="{% url 'my_commutes' %}">
+                            <button class="btn btn-lg btn-info btn-block">My Commutes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 d-flex align-items-center">
+                <p class="h5">See your Posted Commutes</p>
+            </div>
         </div>
     </div>
 </div>
