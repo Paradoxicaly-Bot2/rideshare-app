@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""Settings for the CarPool web application."""
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Settings for the CarPool web application.
 
 import os
 
@@ -16,10 +12,6 @@ SECRET_KEY = 'op7*^-7$x#)y9&^3ode$a#ane+7ee!r3o9qphftj#m&1x3xdqy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-TIME_ZONE = 'Europe/Berlin'
-
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -46,6 +38,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'carpool.urls'
+WSGI_APPLICATION = 'carpool.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -55,26 +48,18 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'ui', 'static'),
 )
-
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -99,3 +84,6 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'ui.User'
 LOGIN_URL = 'home_page'
 LOGIN_REDIRECT_URL = 'user_home'
+
+# Add the DEFAULT_AUTO_FIELD setting
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
