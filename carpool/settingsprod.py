@@ -48,11 +48,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'projectone',
         'USER': 'projectoneuser',
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'PASSWORD': 'projectonepassword',  # Correct the typo here
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': ''
     }
 }
+
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
