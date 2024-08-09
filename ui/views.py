@@ -47,7 +47,7 @@ def welcome(request):
 @login_required
 @require_GET
 def new_commute(request):
-    """Render the new commute creation page."""
+    """Render the new commute creation page. """
     return render(request, 'create_commute.html')
 
 
