@@ -21,7 +21,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://whale-app-k98xh.ondigitalocean.app',
     'https://camsconnects.com',
     
-    'https://sea-turtle-app-k5nr7.ondigitalocean.app/',
+    'https://sea-turtle-app-k5nr7.ondigitalocean.app',
     'https://otherdomain.com'
 ]
 
