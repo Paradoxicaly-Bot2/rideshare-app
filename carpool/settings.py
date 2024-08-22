@@ -18,7 +18,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://monkfish-app-vwufh.ondigitalocean.app',
+    'https://whale-app-k98xh.ondigitalocean.app/',
     'https://camsconnects.com',
     
     'https://yourdomain.com',
