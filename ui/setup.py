@@ -20,9 +20,9 @@ setup(
     license='Apache 2.0 License',
     description='A carpool app',
     long_description=README,
-    url='https://github.com/Paradoxicaly/rideshare-app',
-    author='Derrick Kwan',
-    author_email='derrick.kwan.360@gmail.com',
+    url='http://github.com/',
+    author='Daniel Domingo-Fernandez',
+    author_email='danieldomingofernandez@hotmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
